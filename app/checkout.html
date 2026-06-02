@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout — Brew & Bean</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <div class="nav-left"><a href="dashboard.html" class="nav-logo">☕ Brew & Bean</a></div>
+            <div class="nav-center"><h2 class="cart-page-title">Checkout</h2></div>
+            <div class="nav-right">
+                <span class="user-name">John Doe</span>
+                <a href="cart.html" class="btn-back">← Back</a>
+                <a href="index.html" class="btn-logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="checkout-page page-enter">
+        <div class="checkout-container">
+            <div class="checkout-form-section">
+                <h1 class="checkout-title">Checkout</h1>
+                
+                <form id="checkoutForm" class="checkout-form" onsubmit="processPayment(event)">
+                    <fieldset class="form-section">
+                        <legend class="form-legend">Shipping Address</legend>
+                        <div class="form-group">
+                            <label for="address">Street Address</label>
+                            <input type="text" id="address" name="address" placeholder="123 Coffee St." required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" placeholder="San Francisco" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip">ZIP Code</label>
+                                <input type="text" id="zip" name="zip" placeholder="94102" required>
+                            </div>
+                        </div>
+                    </fieldset>
+                    
+                    <fieldset class="form-section">
+                        <legend class="form-legend">Payment Method</legend>
+                        <div class="form-group">
+                            <label for="card_name">Cardholder Name</label>
+                            <input type="text" id="card_name" name="card_name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="card_number">Card Number</label>
+                            <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="cvc">CVC</label>
+                                <input type="text" id="cvc" name="cvc" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                    </fieldset>
+                    
+                    <button type="submit" class="btn btn-primary btn-large" id="payButton">Pay $0.00</button>
+                </form>
+            </div>
+            
+            <div class="checkout-summary" id="orderSummary">
+                <h2>Order Summary</h2>
+                <div class="summary-items" id="summaryItems"></div>
+                <div class="summary-divider"></div>
+                <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+                <div class="summary-row"><span>Shipping</span><span>Free</span></div>
+                <div class="summary-row"><span>Tax (8%)</span><span id="tax">$0.00</span></div>
+                <div class="summary-row summary-total"><span>Total</span><span id="total">$0.00</span></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Get cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('cbs_cart') || '[]');
+        let total = 0;
+        
+        function loadOrderSummary() {
+            const summaryItems = document.getElementById('summaryItems');
+            let itemsHTML = '';
+            
+            cart.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                itemsHTML += `
+                    <div class="summary-item">
+                        <div class="summary-item-name">
+                            ${item.name}
+                            <span class="summary-item-qty"> × ${item.quantity}</span>
+                        </div>
+                        <div class="summary-item-price">$${subtotal.toFixed(2)}</div>
+                    </div>
+                `;
+            });
+            
+            const tax = total * 0.08;
+            const finalTotal = total + tax;
+            
+            summaryItems.innerHTML = itemsHTML;
+            document.getElementById('subtotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${finalTotal.toFixed(2)}`;
+            document.getElementById('payButton').innerHTML = `Pay $${finalTotal.toFixed(2)}`;
+        }
+        
+        function processPayment(event) {
+            event.preventDefault();
+            
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const zip = document.getElementById('zip').value;
+            const cardName = document.getElementById('card_name').value;
+            const cardNumber = document.getElementById('card_number').value;
+            
+            if (!address || !city || !zip || !cardName || !cardNumber) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            if (cardNumber.replace(/\s/g, '').length < 13) {
+                alert('Please enter a valid card number.');
+                return;
+            }
+            
+            // Process payment
+            alert('Payment processed successfully! Thank you for your order.');
+            
+            // Clear cart
+            localStorage.removeItem('cbs_cart');
+            
+            // Show success message
+            const tax = total * 0.08;
+            const finalTotal = total + tax;
+            
+            document.querySelector('.checkout-container').innerHTML = `
+                <div class="success-message">
+                    <div class="success-icon">✓</div>
+                    <h1>Order Confirmed!</h1>
+                    <p>Thank you for your purchase. Your coffee is on its way! 🎉</p>
+                    <div class="order-details">
+                        <h2>Order Details</h2>
+                        <div class="detail-row"><span>Order Total</span><span>$${finalTotal.toFixed(2)}</span></div>
+                        <div class="detail-row"><span>Delivery Address</span><span>${address}, ${city} ${zip}</span></div>
+                    </div>
+                    <a href="dashboard.html" class="btn btn-primary btn-large">Continue Shopping</a>
+                </div>
+            `;
+        }
+        
+        // Card number formatting
+        document.getElementById('card_number')?.addEventListener('input', function() {
+            let value = this.value.replace(/\s/g, '');
+            let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+            this.value = formatted;
+        });
+        
+        // Expiry formatting
+        document.getElementById('expiry')?.addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            this.value = value;
+        });
+        
+        loadOrderSummary();
+    </script>
+</body>
+</html>

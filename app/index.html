@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Brew & Bean</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles for demo */
+        .demo-credentials {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="auth-page">
+    <div class="auth-wrapper">
+        <div class="auth-card page-enter">
+            <div class="auth-logo">
+                <span class="logo-icon">☕</span>
+                <h1 class="logo-text">Brew & Bean</h1>
+            </div>
+            <h2 class="auth-title">Welcome Back</h2>
+            <p class="auth-subtitle">Login to your account</p>
+
+            <form method="POST" action="dashboard.html" class="auth-form" novalidate>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </form>
+            
+            <div class="demo-credentials">
+                <strong>Demo Credentials:</strong><br>
+                Email: test@example.com<br>
+                Password: password123
+            </div>
+            
+            <p class="auth-link">Don't have an account? <a href="register.html">Create one</a></p>
+        </div>
+    </div>
+</body>
+</html>

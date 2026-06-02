@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brew & Bean — Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <div class="nav-left">
+                <a href="dashboard.html" class="nav-logo">☕ Brew & Bean</a>
+            </div>
+            <div class="nav-center">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Search coffee...">
+                </div>
+            </div>
+            <div class="nav-right">
+                <a href="cart.html" class="cart-icon" id="cartIcon" title="View cart">
+                    🛒
+                    <span class="cart-badge" id="cartBadge">3</span>
+                </a>
+                <span class="user-name">John Doe</span>
+                <a href="index.html" class="btn-logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="dashboard page-enter">
+        <section class="hero">
+            <h1 class="hero-title">Good afternoon, John ☕</h1>
+            <p class="hero-subtitle">What are you craving today?</p>
+        </section>
+
+        <div class="filters">
+            <a href="#" class="filter-pill active">All</a>
+            <a href="#" class="filter-pill">🔥 Hot Coffee</a>
+            <a href="#" class="filter-pill">🧊 Iced Coffee</a>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=300" alt="Espresso" class="product-image">
+                    <span class="category-tag tag-hot">🔥 Hot</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Espresso</h3>
+                    <p class="product-desc">Strong and bold single shot espresso</p>
+                    <div class="product-footer">
+                        <span class="product-price">$3.50</span>
+                        <button class="btn-add-cart" data-id="1">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?w=300" alt="Cappuccino" class="product-image">
+                    <span class="category-tag tag-hot">🔥 Hot</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Cappuccino</h3>
+                    <p class="product-desc">Espresso with steamed milk and foam</p>
+                    <div class="product-footer">
+                        <span class="product-price">$4.50</span>
+                        <button class="btn-add-cart" data-id="2">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=300" alt="Latte" class="product-image">
+                    <span class="category-tag tag-hot">🔥 Hot</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Latte</h3>
+                    <p class="product-desc">Smooth espresso with lots of steamed milk</p>
+                    <div class="product-footer">
+                        <span class="product-price">$4.75</span>
+                        <button class="btn-add-cart" data-id="3">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300" alt="Iced Coffee" class="product-image">
+                    <span class="category-tag tag-iced">🧊 Iced</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Iced Coffee</h3>
+                    <p class="product-desc">Chilled coffee served over ice</p>
+                    <div class="product-footer">
+                        <span class="product-price">$4.00</span>
+                        <button class="btn-add-cart" data-id="4">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300" alt="Iced Latte" class="product-image">
+                    <span class="category-tag tag-iced">🧊 Iced</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Iced Latte</h3>
+                    <p class="product-desc">Cold latte with milk and ice</p>
+                    <div class="product-footer">
+                        <span class="product-price">$5.00</span>
+                        <button class="btn-add-cart" data-id="5">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=300" alt="Mocha" class="product-image">
+                    <span class="category-tag tag-hot">🔥 Hot</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Mocha</h3>
+                    <p class="product-desc">Espresso with chocolate and milk</p>
+                    <div class="product-footer">
+                        <span class="product-price">$5.25</span>
+                        <button class="btn-add-cart" data-id="6">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="about">
+        <div class="about-inner">
+            <h2 class="about-title">☕ About Brew & Bean</h2>
+            <div class="about-divider"></div>
+            <p class="about-text">We source single-origin beans from small farms around the world and roast them in small batches right here in our shop. Every cup is crafted with care — because great coffee starts with great ingredients and a little bit of love.</p>
+        </div>
+    </section>
+
+    <script>
+        // Cart functionality
+        let cart = JSON.parse(localStorage.getItem('cbs_cart') || '[]');
+        
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (badge) badge.textContent = count;
+        }
+        
+        document.querySelectorAll('.btn-add-cart').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.product-card');
+                const name = card.querySelector('.product-name').textContent;
+                const price = card.querySelector('.product-price').textContent;
+                const id = this.dataset.id;
+                
+                const existing = cart.find(item => item.productId === id);
+                if (existing) {
+                    existing.quantity++;
+                } else {
+                    cart.push({ 
+                        productId: id, 
+                        name: name,
+                        price: parseFloat(price.replace('$', '')),
+                        quantity: 1 
+                    });
+                }
+                localStorage.setItem('cbs_cart', JSON.stringify(cart));
+                updateCartBadge();
+                
+                // Animation
+                const cartIcon = document.getElementById('cartIcon');
+                cartIcon.style.transform = 'scale(1.2)';
+                setTimeout(() => cartIcon.style.transform = '', 200);
+                
+                // Alert
+                alert(`${name} added to cart!`);
+            });
+        });
+        
+        updateCartBadge();
+        
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const products = document.querySelectorAll('.product-card');
+            
+            products.forEach(product => {
+                const name = product.querySelector('.product-name').textContent.toLowerCase();
+                const desc = product.querySelector('.product-desc').textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || desc.includes(searchTerm)) {
+                    product.style.display = '';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        });
+        
+        // Filter functionality
+        document.querySelectorAll('.filter-pill').forEach(filter => {
+            filter.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active state
+                document.querySelectorAll('.filter-pill').forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filterText = this.textContent;
+                const products = document.querySelectorAll('.product-card');
+                
+                products.forEach(product => {
+                    const tag = product.querySelector('.category-tag');
+                    if (filterText === 'All') {
+                        product.style.display = '';
+                    } else if (filterText.includes('Hot') && tag.textContent.includes('Hot')) {
+                        product.style.display = '';
+                    } else if (filterText.includes('Iced') && tag.textContent.includes('Iced')) {
+                        product.style.display = '';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

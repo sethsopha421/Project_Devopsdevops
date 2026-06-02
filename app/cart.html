@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart — Brew & Bean</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <div class="nav-left">
+                <a href="dashboard.html" class="nav-logo">☕ Brew & Bean</a>
+            </div>
+            <div class="nav-center">
+                <h2 class="cart-page-title">Your Cart</h2>
+            </div>
+            <div class="nav-right">
+                <span class="user-name">John Doe</span>
+                <a href="dashboard.html" class="btn-back">← Back</a>
+                <a href="index.html" class="btn-logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="cart-page page-enter">
+        <div class="cart-container">
+            <div id="cartContent"></div>
+        </div>
+    </main>
+
+    <script>
+        // Get cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('cbs_cart') || '[]');
+        const cartData = {};
+        
+        cart.forEach(item => {
+            cartData[item.productId] = {
+                quantity: item.quantity,
+                name: item.name,
+                price: item.price
+            };
+        });
+        
+        function renderCart() {
+            const container = document.getElementById('cartContent');
+            const productIds = Object.keys(cartData);
+            
+            if (productIds.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h2>Your cart is empty</h2>
+                        <p>Looks like you haven't added any coffee yet.</p>
+                        <a href="dashboard.html" class="btn btn-primary">Continue Shopping</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            let total = 0;
+            let itemsHTML = '';
+            
+            productIds.forEach(id => {
+                const item = cartData[id];
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                
+                itemsHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-details">
+                            <h3>${item.name}</h3>
+                            <p class="cart-item-price">$${item.price.toFixed(2)} each</p>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="qty-btn" data-product-id="${id}" data-action="decrease">−</button>
+                            <input type="number" class="qty-input" value="${item.quantity}" min="1" data-product-id="${id}">
+                            <button class="qty-btn" data-product-id="${id}" data-action="increase">+</button>
+                        </div>
+                        <div class="cart-item-subtotal">$${subtotal.toFixed(2)}</div>
+                        <button class="btn-remove" data-product-id="${id}" title="Remove item">×</button>
+                    </div>
+                `;
+            });
+            
+            const tax = total * 0.08;
+            const finalTotal = total + tax;
+            
+            container.innerHTML = `
+                <div class="cart-content">
+                    <div class="cart-items">${itemsHTML}</div>
+                    <div class="cart-summary">
+                        <h2>Order Summary</h2>
+                        <div class="summary-row"><span>Subtotal</span><span>$${total.toFixed(2)}</span></div>
+                        <div class="summary-row"><span>Shipping</span><span>$0.00</span></div>
+                        <div class="summary-row"><span>Tax (8%)</span><span>$${tax.toFixed(2)}</span></div>
+                        <div class="summary-row summary-total"><span>Total</span><span>$${finalTotal.toFixed(2)}</span></div>
+                        <button onclick="proceedToCheckout()" class="btn btn-primary btn-large">Proceed to Checkout</button>
+                        <a href="dashboard.html" class="btn btn-secondary btn-large">Continue Shopping</a>
+                    </div>
+                </div>
+            `;
+            
+            attachEventListeners();
+        }
+        
+        function updateCart(productId, quantity) {
+            if (quantity > 0) {
+                cartData[productId].quantity = quantity;
+            } else {
+                delete cartData[productId];
+            }
+            
+            const updatedCart = Object.entries(cartData).map(([pid, item]) => ({
+                productId: pid,
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity
+            }));
+            
+            localStorage.setItem('cbs_cart', JSON.stringify(updatedCart));
+            cart = updatedCart;
+            renderCart();
+            updateCartBadge();
+        }
+        
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+                badge.textContent = count;
+            }
+        }
+        
+        function attachEventListeners() {
+            document.querySelectorAll('.qty-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = this.dataset.productId;
+                    const input = document.querySelector(`.qty-input[data-product-id="${productId}"]`);
+                    let qty = parseInt(input.value);
+                    if (this.dataset.action === 'increase') qty++;
+                    else if (qty > 1) qty--;
+                    updateCart(productId, qty);
+                });
+            });
+            
+            document.querySelectorAll('.btn-remove').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    updateCart(this.dataset.productId, 0);
+                });
+            });
+        }
+        
+        function proceedToCheckout() {
+            if (Object.keys(cartData).length > 0) {
+                window.location.href = 'checkout.html';
+            } else {
+                alert('Your cart is empty!');
+            }
+        }
+        
+        renderCart();
+    </script>
+</body>
+</html>
